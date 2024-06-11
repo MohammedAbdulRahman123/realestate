@@ -7,12 +7,12 @@ import {
   TextAreaField,
   Submit,
 } from '@redwoodjs/forms'
-import { useAuth } from 'src/auth'
+
+import { convertObjectValuesToUpper } from 'src/Utils/Utils'
 
 const CategoryForm = (props) => {
-  const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()
   const onSubmit = (data) => {
-    data['emp'] = currentUser.email
+    data = convertObjectValuesToUpper(data)
     props.onSave(data, props?.category?.id)
   }
 
@@ -43,8 +43,8 @@ const CategoryForm = (props) => {
         />
 
         <FieldError name="category_name" className="rw-field-error" />
-
-        {/* <Label
+        {/*
+        <Label
           name="extra"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -61,24 +61,6 @@ const CategoryForm = (props) => {
         />
 
         <FieldError name="extra" className="rw-field-error" /> */}
-
-        {/* <Label
-          name="emp"
-          className="rw-label"
-          errorClassName="rw-label rw-label-error"
-        >
-          Emp
-        </Label>
-
-        <TextField
-          name="emp"
-          defaultValue={props.category?.emp}
-          className="rw-input"
-          errorClassName="rw-input rw-input-error"
-          validation={{ required: true }}
-        />
-
-        <FieldError name="emp" className="rw-field-error" /> */}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

@@ -10,7 +10,6 @@ export const QUERY = gql`
       created_at
       updated_at
       extra
-      emp
     }
   }
 `

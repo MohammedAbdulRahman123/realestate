@@ -59,10 +59,6 @@ const Category = ({ category }) => {
               <th>Extra</th>
               <td>{jsonDisplay(category.extra)}</td>
             </tr>
-            <tr>
-              <th>Emp</th>
-              <td>{category.emp}</td>
-            </tr>
           </tbody>
         </table>
       </div>

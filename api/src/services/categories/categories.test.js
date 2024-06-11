@@ -29,14 +29,12 @@ describe('categories', () => {
     const result = await createCategory({
       input: {
         category_name: 'String',
-        updated_at: '2024-02-26T16:06:56.537Z',
-        emp: 'String',
+        updated_at: '2024-06-11T12:39:59.248Z',
       },
     })
 
     expect(result.category_name).toEqual('String')
-    expect(result.updated_at).toEqual(new Date('2024-02-26T16:06:56.537Z'))
-    expect(result.emp).toEqual('String')
+    expect(result.updated_at).toEqual(new Date('2024-06-11T12:39:59.248Z'))
   })
 
   scenario('updates a category', async (scenario) => {

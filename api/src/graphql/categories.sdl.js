@@ -5,8 +5,7 @@ export const schema = gql`
     created_at: DateTime!
     updated_at: DateTime!
     extra: JSON
-    Catalogue: [Catalogue]!
-    emp: String!
+    SubCategory: [SubCategory]!
   }
 
   type Query {
@@ -17,13 +16,11 @@ export const schema = gql`
   input CreateCategoryInput {
     category_name: String!
     extra: JSON
-    emp: String!
   }
 
   input UpdateCategoryInput {
     category_name: String
     extra: JSON
-    emp: String
   }
 
   type Mutation {

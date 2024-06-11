@@ -44,7 +44,6 @@ const CategoriesList = ({ categories }) => {
             <th>Created at</th>
             <th>Updated at</th>
             <th>Extra</th>
-            <th>Emp</th>
             <th>&nbsp;</th>
           </tr>
         </thead>
@@ -56,7 +55,6 @@ const CategoriesList = ({ categories }) => {
               <td>{timeTag(category.created_at)}</td>
               <td>{timeTag(category.updated_at)}</td>
               <td>{jsonTruncate(category.extra)}</td>
-              <td>{truncate(category.emp)}</td>
               <td>
                 <nav className="rw-table-actions">
                   <Link

@@ -19,28 +19,59 @@ generator client {
 // TODO: Please remove the following example:
 
 model Category {
-  id            Int         @id @default(autoincrement())
+  id            Int           @id @default(autoincrement())
   category_name String
+  created_at    DateTime      @default(now())
+  updated_at    DateTime      @updatedAt
+  extra         Json?
+  SubCategory   SubCategory[]
+}
+
+model SubCategory {
+  id                Int       @id @default(autoincrement())
+  sub_category_name String
+  category          Category  @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  desc              Json
+  created_at        DateTime  @default(now())
+  updated_at        DateTime  @updatedAt
+  extra             Json?
+  Product           Product[]
+  categoryId        Int
+}
+
+model Product {
+  id            Int         @id @default(autoincrement())
+  product_name  String
+  subcategory   SubCategory @relation(fields: [subCategoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  desc          Json
+  configuration Json
+  price         Json
+  image         String
   created_at    DateTime    @default(now())
   updated_at    DateTime    @updatedAt
   extra         Json?
-  Catalogue     Catalogue[]
-  emp           String
+  subCategoryId Int
 }
 
-model Catalogue {
-  id           Int      @id @default(autoincrement())
-  product_name String
-  product_code String
-  description  String
-  price        Float
-  image_url    String
-  category     Category @relation(fields: [categoryId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  created_at   DateTime @default(now())
-  updated_at   DateTime @updatedAt
-  extra        Json?
-  categoryId   Int
-  emp          String
+model Order {
+  id            String   @id @default(uuid())
+  order_item    Json
+  total_amount  Float
+  status        String
+  delivary_date DateTime
+  created_at    DateTime @default(now())
+  updated_at    DateTime @updatedAt
+  extra         Json?
+  user          User     @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId        Int
+}
+
+model Configuration {
+  id         Int      @id @default(autoincrement())
+  heading    String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  extra      Json?
 }
 
 model User {
@@ -56,4 +87,5 @@ model User {
   created_at          DateTime  @default(now())
   updated_at          DateTime  @updatedAt
   extra               Json?
+  Order               Order[]
 }

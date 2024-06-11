@@ -133,8 +133,8 @@ const SignupPage = () => {
                       }}
                     >
                       <option>Please select an option</option>
-                      <option value={'directors'}>Directors</option>
-                      <option value={'sales'}>Sales</option>
+                      <option value={'admin'}>Admin</option>
+                      <option value={'operator'}>Operator</option>
 
                     </SelectField>
 
