@@ -13,6 +13,7 @@ import ScaffoldLayout from 'src/layouts/ScaffoldLayout'
 
 import { useAuth } from './auth'
 import DashboardLayout from './layouts/DashboardLayout/DashboardLayout'
+import UserLayout from './layouts/UserLayout/UserLayout'
 
 const Routes = () => {
   return (
@@ -21,10 +22,14 @@ const Routes = () => {
       <Route path="/signup" page={SignupPage} name="signup" />
       <Route path="/forgot-password" page={ForgotPasswordPage} name="forgotPassword" />
       <Route path="/reset-password" page={ResetPasswordPage} name="resetPassword" />
+
+      <Set wrap={UserLayout}>
+        <Route path="/" page={HomePage} name="home" />
+        <Route path="/show-products/{id:Int}" page={ShowProductsPage} name="showProducts" />
+      </Set>
+
       <PrivateSet unauthenticated="login">
         <Set wrap={DashboardLayout}>
-          <Route path="/" page={HomePage} name="home" />
-
           <Set wrap={ScaffoldLayout} title="Catalogues" titleTo="catalogues" buttonLabel="New Catalogue" buttonTo="newCatalogue">
             <Route path="/catalogues/new" page={CatalogueNewCataloguePage} name="newCatalogue" />
             <Route path="/catalogues/{id:Int}/edit" page={CatalogueEditCataloguePage} name="editCatalogue" />

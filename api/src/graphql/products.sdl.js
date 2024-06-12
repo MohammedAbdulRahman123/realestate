@@ -15,6 +15,7 @@ export const schema = gql`
 
   type Query {
     products: [Product!]! @requireAuth
+    showProducts(id: Int!): [Product!]! @skipAuth
     product(id: Int!): Product @requireAuth
   }
 

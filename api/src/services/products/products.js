@@ -9,6 +9,13 @@ export const product = ({ id }) => {
     where: { id },
   })
 }
+export const showProducts = ({ id }) => {
+  return db.product.findMany({
+    where: {
+      subCategoryId: id,
+    },
+  })
+}
 
 export const createProduct = ({ input }) => {
   return db.product.create({
