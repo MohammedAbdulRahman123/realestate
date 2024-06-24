@@ -12,6 +12,10 @@ export const QUERY = gql`
       updated_at
       extra
       userId
+      user {
+        name
+        email
+      }
     }
   }
 `

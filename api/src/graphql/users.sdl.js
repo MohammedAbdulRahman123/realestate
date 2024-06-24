@@ -12,7 +12,7 @@ export const schema = gql`
     created_at: DateTime!
     updated_at: DateTime!
     extra: JSON
-    Order: [Order]!
+    RealLayouts: [RealLayouts]!
   }
 
   type Query {

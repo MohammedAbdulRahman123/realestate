@@ -10,6 +10,21 @@ export const order = ({ id }) => {
   })
 }
 
+export const yourOrder = () => {
+  return db.order.findMany({
+    where: {
+      userId: 2,
+    },
+    orderBy: {
+      created_at: 'desc',
+    },
+  })
+}
+export const orderById = ({ id }) => {
+  return db.order.findUnique({
+    where: { id },
+  })
+}
 export const createOrder = ({ input }) => {
   return db.order.create({
     data: input,

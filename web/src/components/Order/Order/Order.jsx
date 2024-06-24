@@ -1,3 +1,7 @@
+import React from 'react'
+
+import { FaTrashAlt, FaEdit } from 'react-icons/fa'
+
 import { Link, routes, navigate } from '@redwoodjs/router'
 import { useMutation } from '@redwoodjs/web'
 import { toast } from '@redwoodjs/web/toast'
@@ -30,70 +34,71 @@ const Order = ({ order }) => {
   }
 
   return (
-    <>
-      <div className="rw-segment">
-        <header className="rw-segment-header">
-          <h2 className="rw-heading rw-heading-secondary">
-            Order {order.id} Detail
-          </h2>
-        </header>
-        <table className="rw-table">
-          <tbody>
-            <tr>
-              <th>Id</th>
-              <td>{order.id}</td>
-            </tr>
-            <tr>
-              <th>Order item</th>
-              <td>{jsonDisplay(order.order_item)}</td>
-            </tr>
-            <tr>
-              <th>Total amount</th>
-              <td>{order.total_amount}</td>
-            </tr>
-            <tr>
-              <th>Status</th>
-              <td>{order.status}</td>
-            </tr>
-            <tr>
-              <th>Delivary date</th>
-              <td>{timeTag(order.delivary_date)}</td>
-            </tr>
-            <tr>
-              <th>Created at</th>
-              <td>{timeTag(order.created_at)}</td>
-            </tr>
-            <tr>
-              <th>Updated at</th>
-              <td>{timeTag(order.updated_at)}</td>
-            </tr>
-            <tr>
-              <th>Extra</th>
-              <td>{jsonDisplay(order.extra)}</td>
-            </tr>
-            <tr>
-              <th>User id</th>
-              <td>{order.userId}</td>
-            </tr>
-          </tbody>
-        </table>
+    <div className="mx-auto max-w-4xl rounded-lg bg-white p-4 shadow-lg">
+      <header className="flex items-center justify-between rounded-t-lg bg-gray-800 px-6 py-4 text-white">
+        <h2 className="text-lg font-semibold">Order {order.id} Detail</h2>
+      </header>
+      <div className="space-y-4 p-6">
+        {Object.entries(order?.order_item).map(([key, value]) => {
+          let title = key
+          title = title.replaceAll('your', '')
+          title = title.replaceAll('select', '')
+          title = title.replaceAll('Your', '')
+          title = title.replaceAll('Select', '')
+          title = title.trim()
+          return (
+            <div
+              key={key}
+              className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between"
+            >
+              <div className="font-semibold text-gray-700">{title}</div>
+              <div className="text-gray-600">{value}</div>
+            </div>
+          )
+        })}
+        <div className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">Total Amount</div>
+          <div className="text-gray-600">{order.total_amount}</div>
+        </div>
+        <div className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">Status</div>
+          <div className="text-gray-600">{order.status}</div>
+        </div>
+        <div className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">Delivery Date</div>
+          <div className="text-gray-600">{timeTag(order.delivary_date)}</div>
+        </div>
+        <div className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">Order Created At</div>
+          <div className="text-gray-600">{timeTag(order.created_at)}</div>
+        </div>
+        <div className="mb-4 flex flex-col border-b pb-4 md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">Status Updated At</div>
+          <div className="text-gray-600">{timeTag(order.updated_at)}</div>
+        </div>
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between">
+          <div className="font-semibold text-gray-700">User Name</div>
+          <div className="text-gray-600">{order.user?.email}</div>
+        </div>
       </div>
-      <nav className="rw-button-group">
+      <div className="flex justify-end space-x-2 rounded-b-lg bg-gray-100 p-6">
         <Link
           to={routes.editOrder({ id: order.id })}
-          className="rw-button rw-button-blue"
+          className="flex items-center space-x-1 rounded-lg bg-blue-500 px-4 py-2 text-white shadow transition duration-150 hover:bg-blue-600"
         >
-          Edit
+          <FaEdit />
+          <span>Edit</span>
         </Link>
         <button
           type="button"
-          className="rw-button rw-button-red"
+          className="flex items-center space-x-1 rounded-lg bg-red-500 px-4 py-2 text-white shadow transition duration-150 hover:bg-red-600"
           onClick={() => onDeleteClick(order.id)}
         >
-          Delete
+          <FaTrashAlt />
+          <span>Delete</span>
         </button>
-      </nav>
-    </>
+      </div>
+    </div>
   )
 }
 

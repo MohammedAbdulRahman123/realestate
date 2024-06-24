@@ -31,7 +31,7 @@ const OrderForm = (props) => {
           listClassName="rw-form-error-list"
         />
 
-        <Label
+        {/* <Label
           name="order_item"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -47,9 +47,9 @@ const OrderForm = (props) => {
           validation={{ valueAsJSON: true, required: true }}
         />
 
-        <FieldError name="order_item" className="rw-field-error" />
+        <FieldError name="order_item" className="rw-field-error" /> */}
 
-        <Label
+        {/* <Label
           name="total_amount"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -65,7 +65,7 @@ const OrderForm = (props) => {
           validation={{ valueAsNumber: true, required: true }}
         />
 
-        <FieldError name="total_amount" className="rw-field-error" />
+        <FieldError name="total_amount" className="rw-field-error" /> */}
 
         <Label
           name="status"
@@ -103,7 +103,7 @@ const OrderForm = (props) => {
 
         <FieldError name="delivary_date" className="rw-field-error" />
 
-        <Label
+        {/* <Label
           name="extra"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -119,9 +119,9 @@ const OrderForm = (props) => {
           validation={{ valueAsJSON: true }}
         />
 
-        <FieldError name="extra" className="rw-field-error" />
+        <FieldError name="extra" className="rw-field-error" /> */}
 
-        <Label
+        {/* <Label
           name="userId"
           className="rw-label"
           errorClassName="rw-label rw-label-error"
@@ -137,7 +137,7 @@ const OrderForm = (props) => {
           validation={{ required: true }}
         />
 
-        <FieldError name="userId" className="rw-field-error" />
+        <FieldError name="userId" className="rw-field-error" /> */}
 
         <div className="rw-button-group">
           <Submit disabled={props.loading} className="rw-button rw-button-blue">

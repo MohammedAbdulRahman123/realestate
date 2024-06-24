@@ -1,33 +1,39 @@
 // web/src/components/FeaturesSection.js
 import React from 'react'
 
-import { FaTruck, FaThumbsUp, FaClock, FaTags, FaBox } from 'react-icons/fa'
+import {
+  FaMapMarkerAlt,
+  FaCheckCircle,
+  FaClipboardList,
+  FaSearch,
+  FaSyncAlt,
+} from 'react-icons/fa'
 
 const features = [
   {
-    icon: <FaTruck className="h-12 w-12 text-blue-500" />,
-    title: 'Free Delivery',
-    description: 'Get free delivery on all orders.',
+    icon: <FaMapMarkerAlt className="h-12 w-12 text-blue-500" />,
+    title: 'Add Layouts',
+    description: 'Easily add and manage your property layouts.',
   },
   {
-    icon: <FaThumbsUp className="h-12 w-12 text-blue-500" />,
-    title: 'Complete Printing Services',
-    description: 'We offer a complete range of printing services.',
+    icon: <FaCheckCircle className="h-12 w-12 text-blue-500" />,
+    title: 'Track Availability',
+    description: 'See which layouts are sold or available.',
   },
   {
-    icon: <FaClock className="h-12 w-12 text-blue-500" />,
-    title: 'Fast Order Processing',
-    description: 'Quick and efficient order processing.',
+    icon: <FaClipboardList className="h-12 w-12 text-blue-500" />,
+    title: 'Comprehensive Listings',
+    description: 'View detailed information about each layout.',
   },
   {
-    icon: <FaTags className="h-12 w-12 text-blue-500" />,
-    title: 'Competitive Pricing',
-    description: 'Get the best prices on all services.',
+    icon: <FaSearch className="h-12 w-12 text-blue-500" />,
+    title: 'Advanced Search',
+    description: 'Find layouts that match your criteria quickly.',
   },
   {
-    icon: <FaBox className="h-12 w-12 text-blue-500" />,
-    title: 'White Label Shipping',
-    description: 'Shipping under your brand.',
+    icon: <FaSyncAlt className="h-12 w-12 text-blue-500" />,
+    title: 'Real-Time Updates',
+    description: 'Get real-time updates on layout status.',
   },
 ]
 
@@ -36,16 +42,13 @@ const FeaturesSection = () => {
     <section className="bg-white py-12">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <h2 className="text-center text-3xl font-extrabold leading-tight text-gray-900">
-          LEADING IRELAND TRADE PRINTERS
+          MANAGE YOUR LAYOUTS EASILY
         </h2>
         <p className="mt-4 text-center text-lg text-gray-600">
-          We pride ourselves in being the best trade printers in the UK &
-          Ireland. We gain a competitive edge, by ensuring we keep to our high
-          standards of offering great turnaround times at unbeatable prices. If
-          you find yourself looking for a trade printing partner to help grow
-          your business in Ireland and the UK, then look no further. We have the
-          required experience and expertise to offer you a high-quality trade
-          printing service.
+          Welcome to JustPrint, the best platform for managing your property
+          layouts. Whether you are an owner looking to list your layouts or a
+          user searching for available properties, we provide all the tools you
+          need to stay informed and make decisions with confidence.
         </p>
         <div className="mt-10 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {features.map((feature, index) => (

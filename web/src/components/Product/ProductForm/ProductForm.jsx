@@ -41,12 +41,14 @@ const ProductForm = (props) => {
   const { loading, error, data } = useQuery(GET_CATEGORIES_AND_SUBCATEGORIES)
   const [selectedCategory, setSelectedCategory] = useState(null)
   const [selectedSubCategory, setSelectedSubCategory] = useState(null)
-  const [shortDesc, setShortDesc] = useState(props.product?.shortDesc || '')
-  const [longDesc, setLongDesc] = useState(props.product?.longDesc || '')
-  const [configurations, setConfigurations] = useState(
-    props.product?.configurations || []
+  const [shortDesc, setShortDesc] = useState(
+    props.product?.desc?.shortDesc || ''
   )
-  const [price, setPrice] = useState(props.product?.price || '')
+  const [longDesc, setLongDesc] = useState(props.product?.desc?.longDesc || '')
+  const [configurations, setConfigurations] = useState(
+    props.product?.configuration || []
+  )
+  const [price, setPrice] = useState(props.product?.price?.actual_price || '')
   const [extra, setExtra] = useState(props.product?.extra || '')
   const [file1, setFile1] = useState(null)
   const [url1, setUrl1] = useState(
@@ -55,21 +57,51 @@ const ProductForm = (props) => {
 
   useEffect(() => {
     if (props.product?.subCategoryId && data) {
-      const subCategory = data.categories
-        .flatMap((category) => category.SubCategory)
-        .find((subCat) => subCat.id === props.product.subCategoryId)
-
-      if (subCategory) {
-        setSelectedCategory(
-          data.categories.find((cat) => cat.id === subCategory.categoryId)
-        )
-        setSelectedSubCategory(subCategory)
+      const subCategoryId = props.product?.subCategoryId
+      function findCategoryBySubCategoryId(subCategoryId) {
+        for (const category of data.categories) {
+          for (const subCategory of category.SubCategory) {
+            if (subCategory.id === subCategoryId) {
+              return category
+            }
+          }
+        }
+        return null // Return null if no match is found
       }
+      let category = findCategoryBySubCategoryId(subCategoryId)
+      // console.log('here', category)
+      let obj = {
+        value: category.id,
+        label: category.category_name,
+        subCategories: category.SubCategory.map((subCat) => ({
+          value: subCat.id,
+          label: subCat.sub_category_name,
+        })),
+      }
+      let subcat = obj.subCategories?.find((val) => val.value == subCategoryId)
+      // console.log(subcat)
+      setSelectedCategory(obj)
+      setSelectedSubCategory(subcat)
+      // const subCategory = data.categories
+      //   .flatMap((category) => category.SubCategory)
+      //   .find((subCat) => subCat.id === props.product.subCategoryId)
+      // console.log(subCategory)
+      // if (subCategory) {
+      //   setSelectedCategory(
+      //     data.categories.find((cat) => cat.id === subCategory.categoryId)
+      //   )
+      //   setSelectedSubCategory(subCategory)
+      // }
+      console.log('hello', props.product?.subCategoryId)
     }
+
+    // console.log(props.product, shortDesc)
   }, [props.product, data])
 
   const onSubmit = async (data) => {
-    if (url1 == '') {
+    let url = url1
+    if (url1 != '' || file1) {
+      console.log('here')
       const storageRef = ref(storage, `justprint/${data['product_name']}.jpg`)
       const uploadTask = uploadBytesResumable(storageRef, file1)
 
@@ -84,7 +116,9 @@ const ProductForm = (props) => {
           async () => {
             try {
               const downloadURL = await getDownloadURL(uploadTask.snapshot.ref)
-              setUrl1(downloadURL)
+              // console.log('here2', downloadURL)
+              // setUrl1(downloadURL)
+              url = downloadURL
               resolve(downloadURL)
             } catch (error) {
               console.error('Error getting download URL:', error.message)
@@ -96,8 +130,9 @@ const ProductForm = (props) => {
 
       await uploadPromise
     }
+    console.log(url)
 
-    data['image'] = url1
+    data['image'] = url
     data.subCategoryId = selectedSubCategory?.value
     data['desc'] = {
       shortDesc,
@@ -117,7 +152,7 @@ const ProductForm = (props) => {
       }
     }
 
-    console.log(data)
+    // console.log(data)
     props.onSave(data, props?.product?.id)
   }
 
@@ -309,7 +344,7 @@ const ProductForm = (props) => {
               onChange={(e) =>
                 handleConfigurationValuesChange(index, e.target.value)
               }
-              className="mt-2 rw-input"
+              className="rw-input mt-2"
             />
             <button
               type="button"
@@ -350,7 +385,7 @@ const ProductForm = (props) => {
 
         <FieldError name="price" className="rw-field-error" />
 
-        <div className="p-3 mb-4 ">
+        <div className="mb-4 p-3 ">
           <ImageSelector
             id="logo"
             label="Product Image"

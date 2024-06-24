@@ -9,7 +9,7 @@ export const schema = gql`
   }
 
   type Query {
-    categories: [Category!]! @requireAuth
+    categories: [Category!]! @skipAuth
     category(id: Int!): Category @requireAuth
   }
 

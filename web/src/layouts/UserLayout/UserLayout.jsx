@@ -1,4 +1,3 @@
-// web/src/components/Navbar.js
 import React, { useEffect, useState } from 'react'
 
 import { useQuery } from '@apollo/client'
@@ -14,44 +13,33 @@ import {
 } from 'react-icons/fa'
 
 import { Link, navigate, routes } from '@redwoodjs/router'
+import { Toaster } from '@redwoodjs/web/dist/toast'
 
-export const GET_CATEGORIES_AND_SUBCATEGORIES = gql`
-  query GetCategoriesAndSubCategories {
-    categories {
-      id
-      category_name
-      SubCategory {
-        id
-        sub_category_name
-      }
-    }
-  }
-`
+import { useAuth } from 'src/auth'
+
+// export const GET_CATEGORIES_AND_SUBCATEGORIES = gql`
+//   query GetCategoriesAndSubCategories {
+//     categories {
+//       id
+//       category_name
+//       SubCategory {
+//         id
+//         sub_category_name
+//       }
+//     }
+//   }
+// `
 
 const UserLayout = ({ children }) => {
-  const { loading, error, data } = useQuery(GET_CATEGORIES_AND_SUBCATEGORIES)
+  const { isAuthenticated, currentUser, logOut, hasRole } = useAuth()
+  // const { loading, error, data } = useQuery(GET_CATEGORIES_AND_SUBCATEGORIES)
   const [category, setCategory] = useState([])
   const [isOpen, setIsOpen] = useState(false)
   const [submenuOpen, setSubmenuOpen] = useState({
     ourProduct: false,
     aboutUs: false,
-    browse: false,
+    order: false,
   })
-
-  useEffect(() => {
-    if (data) {
-      const subCategory = data.categories
-      setCategory(subCategory)
-    }
-  }, [data])
-  if (!data) {
-    return (
-      <div className="flex h-screen items-center justify-center">
-        <div className="h-16 w-16 animate-spin rounded-full border-t-8 border-solid border-yellow-500"></div>
-      </div>
-    )
-  }
-
   const submenuItems = {
     ourProduct: [
       { name: 'Product 1', path: '/product1' },
@@ -59,17 +47,48 @@ const UserLayout = ({ children }) => {
       { name: 'Product 3', path: '/product3' },
     ],
     aboutUs: [
-      { name: 'Our Team', path: '/ourteam' },
+      { name: 'Our Team', path: '/about' },
       { name: 'Our Story', path: '/ourstory' },
+    ],
+    order: [
+      { name: 'Your Orders', path: '/your-order' },
+      { name: 'Track Orders', path: '/track-order' },
     ],
     browse: [
       { name: 'Category 1', path: '/category1' },
       { name: 'Category 2', path: '/category2' },
     ],
   }
+  // useEffect(() => {
+  //   if (data) {
+  //     const subCategory = data.categories
+  //     setCategory(subCategory)
+  //   }
+  // }, [data])
+
+  // if (!data) {
+  //   return (
+  //     <div className="flex h-screen items-center justify-center">
+  //       <div className="h-16 w-16 animate-spin rounded-full border-t-8 border-solid border-yellow-500"></div>
+  //     </div>
+  //   )
+  // }
 
   const toggleSubmenu = (menu) => {
-    setSubmenuOpen({ ...submenuOpen, [menu]: !submenuOpen[menu] })
+    setSubmenuOpen({
+      ourProduct: false,
+      aboutUs: false,
+      order: false,
+      [menu]: !submenuOpen[menu],
+    })
+  }
+
+  const closeAll = () => {
+    setSubmenuOpen({
+      ourProduct: false,
+      aboutUs: false,
+      order: false,
+    })
   }
 
   return (
@@ -91,14 +110,14 @@ const UserLayout = ({ children }) => {
               </button>
             </div>
             <div className="flex h-14 w-14 flex-1 items-center justify-center sm:items-center sm:justify-start">
-              <div className="flex-shrink-0">
+              <Link to={routes.home()} className="flex-shrink-0">
                 <img
                   className="h-14 w-14 rounded-full"
                   src="/logo.png"
                   alt="JustPrint"
                 />
-              </div>
-              <div className="hidden  sm:ml-6 sm:block">
+              </Link>
+              <div className="hidden sm:ml-6 sm:block">
                 <div className="flex space-x-4">
                   <div className="relative">
                     <button
@@ -109,50 +128,27 @@ const UserLayout = ({ children }) => {
                       <FaChevronDown className="ml-1 h-4 w-4" />
                     </button>
                     {submenuOpen.ourProduct && (
-                      <div className="absolute left-0 z-50 mt-2 w-48 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <div
+                        onClick={closeAll}
+                        className="absolute left-0 z-50 mt-2 flex w-[80vw] flex-row flex-wrap rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5"
+                      >
                         {category.map((item) => (
-                          <div className='m-4'>
-                            <h2 className="font-bold mb-2 text-white">{item.category_name}</h2>
-
-                            <div className=''>
-                            {
-                              item.SubCategory.map((it) => (
+                          <div className="m-4" key={item.id}>
+                            <h2 className="mb-2 font-bold text-white">
+                              {item.category_name}
+                            </h2>
+                            <div className="">
+                              {item.SubCategory.map((it) => (
                                 <Link
-                            key={it.sub_category_name}
-                            to={routes.showProducts({id:it.id})}
-                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
-                          >
-                            {it.sub_category_name}
-                          </Link>
-                              ))
-                            }
-
-
-
+                                  key={it.id}
+                                  to={routes.showProducts({ id: it.id })}
+                                  className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                                >
+                                  {it.sub_category_name}
+                                </Link>
+                              ))}
                             </div>
-                            </div>
-                        ))}
-                      </div>
-                    )}
-                  </div>
-                  <div className="relative">
-                    <button
-                      onClick={() => toggleSubmenu('browse')}
-                      className="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                    >
-                      Browse
-                      <FaChevronDown className="ml-1 h-4 w-4" />
-                    </button>
-                    {submenuOpen.browse && (
-                      <div className="absolute left-0 z-50 mt-2 w-48 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
-                        {submenuItems.browse.map((item) => (
-                          <Link
-                            key={item.path}
-                            to={item.path}
-                            className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
-                          >
-                            {item.name}
-                          </Link>
+                          </div>
                         ))}
                       </div>
                     )}
@@ -166,7 +162,10 @@ const UserLayout = ({ children }) => {
                       <FaChevronDown className="ml-1 h-4 w-4" />
                     </button>
                     {submenuOpen.aboutUs && (
-                      <div className="absolute left-0 z-50 mt-2 w-48 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                      <div
+                        onClick={closeAll}
+                        className="absolute left-0 z-50 mt-2 w-48 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5"
+                      >
                         {submenuItems.aboutUs.map((item) => (
                           <Link
                             key={item.path}
@@ -192,24 +191,61 @@ const UserLayout = ({ children }) => {
                     Legal
                   </Link>
                   <Link
-                    to="/contactus"
+                    to="/contact"
                     className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
                   >
                     Contact Us
                   </Link>
-                  {/* <span className="text-gray-300">Call us: (123) 456-7890</span> */}
-                  <Link
-                    to="/login"
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Login
-                  </Link>
-                  <Link
-                    to="/register"
-                    className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-                  >
-                    Register
-                  </Link>
+                  {isAuthenticated ? (
+                    <>
+                      <div className="relative">
+                        <button
+                          onClick={() => toggleSubmenu('order')}
+                          className="inline-flex items-center rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                        >
+                          Orders
+                          <FaChevronDown className="ml-1 h-4 w-4" />
+                        </button>
+                        {submenuOpen.order && (
+                          <div
+                            onClick={closeAll}
+                            className="absolute left-0 z-50 mt-2 w-48 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5"
+                          >
+                            {submenuItems.order.map((item) => (
+                              <Link
+                                key={item.path}
+                                to={item.path}
+                                className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                              >
+                                {item.name}
+                              </Link>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                      <button
+                        onClick={logOut}
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        LogOut
+                      </button>
+                    </>
+                  ) : (
+                    <>
+                      <Link
+                        to="/login"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        Login
+                      </Link>
+                      <Link
+                        to="/signup"
+                        className="rounded-md px-3 py-2 text-sm font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                      >
+                        Register
+                      </Link>
+                    </>
+                  )}
                 </div>
               </div>
             </div>
@@ -228,36 +264,21 @@ const UserLayout = ({ children }) => {
               </button>
               {submenuOpen.ourProduct && (
                 <div className="mt-2 space-y-1 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
-                  {submenuItems.ourProduct.map((item) => (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="relative">
-              <button
-                onClick={() => toggleSubmenu('browse')}
-                className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-              >
-                Browse
-                <FaChevronDown className="ml-1 inline h-4 w-4" />
-              </button>
-              {submenuOpen.browse && (
-                <div className="mt-2 space-y-1 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
-                  {submenuItems.browse.map((item) => (
-                    <Link
-                      key={item.path}
-                      to={item.path}
-                      className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
-                    >
-                      {item.name}
-                    </Link>
+                  {category.map((item) => (
+                    <div key={item.id} className="px-4 py-2">
+                      <h2 className="mb-2 font-bold text-white">
+                        {item.category_name}
+                      </h2>
+                      {item.SubCategory.map((subItem) => (
+                        <Link
+                          key={subItem.id}
+                          to={routes.showProducts({ id: subItem.id })}
+                          className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                        >
+                          {subItem.sub_category_name}
+                        </Link>
+                      ))}
+                    </div>
                   ))}
                 </div>
               )}
@@ -297,31 +318,63 @@ const UserLayout = ({ children }) => {
               Legal
             </Link>
             <Link
-              to="/contactus"
+              to="/contact"
               className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
             >
               Contact Us
             </Link>
-            <span className="block rounded-md px-3 py-2 text-base font-medium text-gray-300">
-              Call us: (123) 456-7890
-            </span>
-            <Link
-              to="/login"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Login
-            </Link>
-            <Link
-              to="/register"
-              className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
-            >
-              Register
-            </Link>
+            {isAuthenticated ? (
+              <>
+                <div className="relative">
+                  <button
+                    onClick={() => toggleSubmenu('order')}
+                    className="block w-full rounded-md px-3 py-2 text-left text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                  >
+                    Orders
+                    <FaChevronDown className="ml-1 inline h-4 w-4" />
+                  </button>
+                  {submenuOpen.order && (
+                    <div className="mt-2 space-y-1 rounded-md bg-gray-800 shadow-lg ring-1 ring-black ring-opacity-5">
+                      {submenuItems.order.map((item) => (
+                        <Link
+                          key={item.path}
+                          to={item.path}
+                          className="block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-white"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+                <button
+                  onClick={logOut}
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  LogOut
+                </button>
+              </>
+            ) : (
+              <>
+                <Link
+                  to="/login"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  Login
+                </Link>
+                <Link
+                  to="/signup"
+                  className="block rounded-md px-3 py-2 text-base font-medium text-gray-300 hover:bg-gray-700 hover:text-white"
+                >
+                  Register
+                </Link>
+              </>
+            )}
           </div>
         </div>
       </nav>
-
-      {children}
+      <Toaster toastOptions={{ className: 'rw-toast', duration: 1500 }} />
+      <div onClick={closeAll}>{children}</div>
 
       <footer className="bg-gray-800 py-8 text-gray-400">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">

@@ -35,7 +35,7 @@ const SignupPage = () => {
     const response = await signUp({
       username: data.username,
       password: data.password,
-      roles: data.roles
+      roles: 'customer'
     })
 
     if (response.message) {
@@ -107,7 +107,7 @@ const SignupPage = () => {
 
                   <FieldError name="password" className="rw-field-error" />
 
-                  <div className='text-black'>
+                  {/* <div className='text-black'>
 
 
                     <Label
@@ -139,7 +139,7 @@ const SignupPage = () => {
                     </SelectField>
 
                     <FieldError name="roles" className="rw-field-error" />
-                  </div>
+                  </div> */}
 
                   <div className="rw-button-group">
                     <Submit className="rw-button rw-button-blue">

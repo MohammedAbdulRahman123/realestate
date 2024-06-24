@@ -25,11 +25,25 @@ const Routes = () => {
 
       <Set wrap={UserLayout}>
         <Route path="/" page={HomePage} name="home" />
+        <Route path="/contact" page={ContactPage} name="contact" />
+        <Route path="/about" page={AboutPage} name="about" />
+        <Route path="/track-order" page={TrackOrderPage} name="trackOrder" />
+        <Route path="/your-order" page={YourOrderPage} name="yourOrder" />
+
         <Route path="/show-products/{id:Int}" page={ShowProductsPage} name="showProducts" />
+        <Route path="/prod/{id:Int}" page={ProdPage} name="prod" />
+        <Route path="/view-layout/{id:Int}" page={ViewLayoutPage} name="viewLayout" />
       </Set>
 
       <PrivateSet unauthenticated="login">
         <Set wrap={DashboardLayout}>
+          <Set wrap={ScaffoldLayout} title="RealLayoutses" titleTo="realLayoutses" buttonLabel="New RealLayouts" buttonTo="newRealLayouts">
+            <Route path="/real-layoutses/new" page={RealLayoutsNewRealLayoutsPage} name="newRealLayouts" />
+            <Route path="/real-layoutses/{id:Int}/edit" page={RealLayoutsEditRealLayoutsPage} name="editRealLayouts" />
+            <Route path="/real-layoutses/{id:Int}" page={RealLayoutsRealLayoutsPage} name="realLayouts" />
+            <Route path="/real-layoutses" page={RealLayoutsRealLayoutsesPage} name="realLayoutses" />
+          </Set>
+          <Route path="/admin" page={AdminPage} name="admin" />
           <Set wrap={ScaffoldLayout} title="Catalogues" titleTo="catalogues" buttonLabel="New Catalogue" buttonTo="newCatalogue">
             <Route path="/catalogues/new" page={CatalogueNewCataloguePage} name="newCatalogue" />
             <Route path="/catalogues/{id:Int}/edit" page={CatalogueEditCataloguePage} name="editCatalogue" />

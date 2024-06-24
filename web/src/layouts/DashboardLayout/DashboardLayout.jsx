@@ -39,30 +39,30 @@ const DashboardLayout = ({ children }) => {
         //  :class="{'dark': isDark }"
       >
         <Toaster toastOptions={{ className: 'rw-toast', duration: 6000 }} />
-        <div className="flex flex-col flex-auto flex-shrink-0 min-h-screen antialiased text-white bg-gray-700">
+        <div className="flex min-h-screen flex-auto flex-shrink-0 flex-col bg-gray-700 text-white antialiased">
           {/* Header */}
-          <div className="fixed z-10 flex items-center justify-between w-full text-white h-14">
-            <div className="flex items-center justify-start pl-3 bg-gray-800 border-none h-14 w-14 md:w-64 md:justify-center">
+          <div className="fixed z-10 flex h-14 w-full items-center justify-between text-white">
+            <div className="flex h-14 w-14 items-center justify-start border-none bg-gray-800 pl-3 md:w-64 md:justify-center">
               <img
-                className="mr-2 overflow-hidden rounded-full h-7 w-7 md:h-10 md:w-10"
+                className="mr-2 h-7 w-7 overflow-hidden rounded-full md:h-10 md:w-10"
                 src="https://therminic2018.eu/wp-content/uploads/2018/07/dummy-avatar.jpg"
               />
               <span className="hidden md:block"> {currentUser.email} </span>
               {/* <span className="hidden md:block"> {'hello'} </span> */}
             </div>
-            <div className="flex items-center justify-end w-full bg-gray-800 h-14">
+            <div className="flex h-14 w-full items-center justify-end bg-gray-800">
               <ul className="flex items-center">
                 <li>
-                  <div className="block w-px h-6 mx-3 bg-gray-700" />
+                  <div className="mx-3 block h-6 w-px bg-gray-700" />
                 </li>
                 <li>
                   <button
-                    className="flex items-center mr-4 hover:text-blue-100"
+                    className="mr-4 flex items-center hover:text-blue-100"
                     onClick={logOut}
                   >
-                    <span className="inline-flex mr-1">
+                    <span className="mr-1 inline-flex">
                       <svg
-                        className="w-5 h-5"
+                        className="h-5 w-5"
                         fill="none"
                         stroke="currentColor"
                         viewBox="0 0 24 24"
@@ -84,15 +84,15 @@ const DashboardLayout = ({ children }) => {
           </div>
           {/* ./Header */}
           {/* Sidebar */}
-          <div className="fixed left-0 z-10 flex flex-col h-full text-white transition-all duration-300 bg-gray-900 border-none sidebar top-14 w-14 hover:w-64 md:w-64">
-            <div className="flex flex-col justify-between flex-grow overflow-x-hidden overflow-y-auto">
-              <ul className="flex flex-col py-4 space-y-1">
+          <div className="sidebar fixed left-0 top-14 z-10 flex h-full w-14 flex-col border-none bg-gray-900 text-white transition-all duration-300 hover:w-64 md:w-64">
+            <div className="flex flex-grow flex-col justify-between overflow-y-auto overflow-x-hidden">
+              <ul className="flex flex-col space-y-1 py-4">
                 {/* {(currentUser.permissions?.charges?.length > 0 || isAdmin) && */}
 
                 <>
                   <li className="hidden px-5 md:block">
-                    <div className="flex flex-row items-center h-8 mt-5">
-                      <div className="text-sm font-light tracking-wide text-gray-400 uppercase">
+                    <div className="mt-5 flex h-8 flex-row items-center">
+                      <div className="text-sm font-light uppercase tracking-wide text-gray-400">
                         Studio
                       </div>
                     </div>
@@ -102,65 +102,14 @@ const DashboardLayout = ({ children }) => {
                     <>
                       <li onClick={toggleDropDown.bind(this, 'lab')}>
                         <Link
-                          to={routes.categories()}
-                          className="relative flex flex-row items-center pr-6 border-l-4 border-transparent text-white-600 hover:text-white-800 h-11 hover:border-gray-800 hover:bg-gray-600 focus:outline-none"
+                          to={routes.realLayoutses()}
+                          className="text-white-600 hover:text-white-800 relative flex h-11 flex-row items-center border-l-4 border-transparent pr-6 hover:border-gray-800 hover:bg-gray-600 focus:outline-none"
                         >
-                          <span className="inline-flex items-center justify-center ml-4">
+                          <span className="ml-4 inline-flex items-center justify-center">
                             <BsPersonFillAdd />
                           </span>
-                          <span className="ml-2 text-sm tracking-wide truncate">
-                            Category
-                          </span>
-                        </Link>
-                      </li>
-                    </>
-                  }
-                  {
-                    <>
-                      <li onClick={toggleDropDown.bind(this, 'lab')}>
-                        <Link
-                          to={routes.subCategories()}
-                          className="relative flex flex-row items-center pr-6 border-l-4 border-transparent text-white-600 hover:text-white-800 h-11 hover:border-gray-800 hover:bg-gray-600 focus:outline-none"
-                        >
-                          <span className="inline-flex items-center justify-center ml-4">
-                            <BsPersonFillAdd />
-                          </span>
-                          <span className="ml-2 text-sm tracking-wide truncate">
-                            Sub Category
-                          </span>
-                        </Link>
-                      </li>
-                    </>
-                  }
-                  {
-                    <>
-                      <li onClick={toggleDropDown.bind(this, 'lab')}>
-                        <Link
-                          to={routes.configurations()}
-                          className="relative flex flex-row items-center pr-6 border-l-4 border-transparent text-white-600 hover:text-white-800 h-11 hover:border-gray-800 hover:bg-gray-600 focus:outline-none"
-                        >
-                          <span className="inline-flex items-center justify-center ml-4">
-                            <BsPersonFillAdd />
-                          </span>
-                          <span className="ml-2 text-sm tracking-wide truncate">
-                            Configuration
-                          </span>
-                        </Link>
-                      </li>
-                    </>
-                  }
-                  {
-                    <>
-                      <li onClick={toggleDropDown.bind(this, 'lab')}>
-                        <Link
-                          to={routes.products()}
-                          className="relative flex flex-row items-center pr-6 border-l-4 border-transparent text-white-600 hover:text-white-800 h-11 hover:border-gray-800 hover:bg-gray-600 focus:outline-none"
-                        >
-                          <span className="inline-flex items-center justify-center ml-4">
-                            <BsPersonFillAdd />
-                          </span>
-                          <span className="ml-2 text-sm tracking-wide truncate">
-                            Product
+                          <span className="ml-2 truncate text-sm tracking-wide">
+                            Manage Layout
                           </span>
                         </Link>
                       </li>
@@ -168,13 +117,13 @@ const DashboardLayout = ({ children }) => {
                   }
                 </>
               </ul>
-              <p className="hidden px-5 py-3 text-xs text-center mb-14 md:block">
+              <p className="mb-14 hidden px-5 py-3 text-center text-xs md:block">
                 Copyright @2024
               </p>
             </div>
           </div>
           {/* ./Sidebar */}
-          <div className="h-full mb-10 ml-14 mt-14 md:ml-64">{children}</div>
+          <div className="mb-10 ml-14 mt-14 h-full md:ml-64">{children}</div>
         </div>
       </div>
     </>

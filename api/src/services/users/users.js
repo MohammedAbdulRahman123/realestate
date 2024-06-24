@@ -30,7 +30,7 @@ export const deleteUser = ({ id }) => {
 }
 
 export const User = {
-  Order: (_obj, { root }) => {
-    return db.user.findUnique({ where: { id: root?.id } }).Order()
+  RealLayouts: (_obj, { root }) => {
+    return db.user.findUnique({ where: { id: root?.id } }).RealLayouts()
   },
 }
