@@ -12,8 +12,8 @@ export const schema = gql`
   }
 
   type Query {
-    realLayoutses: [RealLayouts!]! @requireAuth
-    realLayouts(id: Int!): RealLayouts @requireAuth
+    realLayoutses: [RealLayouts!]! @skipAuth
+    realLayouts(id: Int!): RealLayouts @skipAuth
   }
 
   input CreateRealLayoutsInput {
