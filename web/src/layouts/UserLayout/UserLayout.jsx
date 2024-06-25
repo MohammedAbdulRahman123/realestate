@@ -68,8 +68,8 @@ const UserLayout = ({ children }) => {
 
   // if (!data) {
   //   return (
-  //     <div className="flex h-screen items-center justify-center">
-  //       <div className="h-16 w-16 animate-spin rounded-full border-t-8 border-solid border-yellow-500"></div>
+  //     <div className="flex items-center justify-center h-screen">
+  //       <div className="w-16 h-16 border-t-8 border-yellow-500 border-solid rounded-full animate-spin"></div>
   //     </div>
   //   )
   // }
@@ -112,7 +112,7 @@ const UserLayout = ({ children }) => {
             <div className="flex h-14 w-14 flex-1 items-center justify-center sm:items-center sm:justify-start">
               <Link to={routes.home()} className="flex-shrink-0">
                 <img
-                  className="h-14 w-14 rounded-full"
+                  className="h-8 w-8 rounded-full"
                   src="/relogo.webp"
                   alt="JustPrint"
                 />
